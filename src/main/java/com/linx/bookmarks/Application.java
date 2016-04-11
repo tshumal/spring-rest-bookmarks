@@ -13,8 +13,6 @@ import com.linx.bookmarks.domain.Bookmark;
 import com.linx.bookmarks.repository.AccountRepository;
 import com.linx.bookmarks.repository.BookmarkRepository;
 
-
-
 @SpringBootApplication
 @EnableTransactionManagement
 public class Application {

@@ -1,8 +1,10 @@
 package com.linx.bookmarks.controller;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.linx.bookmarks.domain.Bookmark;
 import com.linx.bookmarks.exception.UserNotFoundException;
+import com.linx.bookmarks.hateoas.BookmarkResource;
 import com.linx.bookmarks.repository.AccountRepository;
 import com.linx.bookmarks.repository.BookmarkRepository;
 
@@ -47,18 +50,22 @@ public class BookmarkRestController {
 				}).get();
 	}
 
-	@RequestMapping(value = "/{bookmarkId}", method = RequestMethod.GET)	
-	public Bookmark readBookmark(@PathVariable String userId,
+	@RequestMapping(value = "/{bookmarkId}", method = RequestMethod.GET)
+	public BookmarkResource readBookmark(@PathVariable String userId,
 			@PathVariable Long bookmarkId) {
 		this.validateUser(userId);
-		return this.bookmarkRepository.findOne(bookmarkId);
+		return new BookmarkResource(this.bookmarkRepository.findOne(bookmarkId));
 	}
 
-	@RequestMapping(method = RequestMethod.GET)	
-	public Collection<Bookmark> readBookmarks(@PathVariable String userId) {
+	@RequestMapping(method = RequestMethod.GET)
+	Resources<BookmarkResource> readBookmarks(@PathVariable String userId) {
 		this.validateUser(userId);
-		return this.bookmarkRepository.findByAccountUsername(userId);
-	}	
+		List<BookmarkResource> bookmarkResourceList = bookmarkRepository.findByAccountUsername(userId)
+                .stream()
+                .map(BookmarkResource::new)
+                .collect(Collectors.toList());
+		return new Resources <BookmarkResource>(bookmarkResourceList);
+	}
 
 	private void validateUser(String userId) {
 		this.accountRepository.findByUsername(userId).orElseThrow(
