@@ -1,4 +1,4 @@
-package com.linx.bookmarks.controller;
+/*package com.linx.bookmarks.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -72,3 +72,4 @@ public class BookmarkRestController {
 				() -> new UserNotFoundException(userId));
 	}
 }
+*/

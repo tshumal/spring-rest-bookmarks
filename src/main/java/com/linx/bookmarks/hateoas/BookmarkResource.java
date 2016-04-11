@@ -6,7 +6,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
 
-import com.linx.bookmarks.controller.BookmarkRestController;
+import com.linx.bookmarks.controller.BookmarkController;
 import com.linx.bookmarks.domain.Bookmark;
 
 public class BookmarkResource extends ResourceSupport implements Comparable<Bookmark>{
@@ -21,8 +21,8 @@ public class BookmarkResource extends ResourceSupport implements Comparable<Book
 		String username = bookmark.getAccount().getUsername();
 		this.bookmark = bookmark;
 		this.add(new Link(bookmark.getUri(), "bookmarks-uri"));
-		this.add(linkTo(BookmarkRestController.class, username).withRel("bookmarks"));		
-		this.add(linkTo(methodOn(BookmarkRestController.class, username).readBookmark(username, bookmark.getId())).withSelfRel());
+		this.add(linkTo(BookmarkController.class, username).withRel("bookmarks"));		
+		/*this.add(linkTo(methodOn(BookmarkController.class, username).readBookmark(username, bookmark.getId())).withSelfRel());*/
 	}
 
 	@Override

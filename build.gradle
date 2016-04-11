@@ -1,5 +1,7 @@
 buildscript {
     repositories {
+		maven { url 'http://repo1.maven.org/maven2'}
+		maven { url 'http://repo.spring.io/libs-release'}
         mavenCentral()
     }
     dependencies {
@@ -14,10 +16,12 @@ apply plugin: 'spring-boot'
 
 jar {
     baseName = 'spring-rest-bookmarks'
-    version =  '0.1.0'
+    version =  '1.0.0'
 }
 
 repositories {
+	maven { url 'http://repo1.maven.org/maven2'}
+	maven { url 'http://repo.spring.io/libs-release'}
     mavenCentral()
 }
 
