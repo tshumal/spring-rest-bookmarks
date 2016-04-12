@@ -35,13 +35,13 @@ Installation is quite easy, first you will have to install some front-end depend
 bower install
 ```
 
-Then you can run Gradle to build the application:
+Then you can run **Gradle** to build the application:
 ```
 gradle clean build
 ```
 
 Now you can run the Java web application quite easily, this automatically starts Spring Boot's embedded tomcat container:
 ```
-java -jar target\spring-rest-bookmarks-1.0.0.jar
+gradle clean build && java -jar build\libs\spring-rest-bookmarks-1.0.0.jar
 ```
 
