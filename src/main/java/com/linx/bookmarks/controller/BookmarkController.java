@@ -1,5 +1,6 @@
 package com.linx.bookmarks.controller;
 
+import java.security.Principal;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,8 @@ public class BookmarkController {
 	private AccountRepository accountRepository;
 
 	@RequestMapping(method = RequestMethod.POST)
-	ResponseEntity<?> add(@PathVariable String userId, @RequestBody Bookmark input) {
+	ResponseEntity<?> add(Principal principal, @RequestBody Bookmark input) {
+		String userId = principal.getName();
 		this.validateUser(userId);
 		return this.accountRepository.findByUsername(userId).map(account -> {
 			Bookmark result = bookmarkRepository.save(new Bookmark(account, input.getUri(), input.getDescription()));
@@ -42,13 +44,15 @@ public class BookmarkController {
 	}
 
 	@RequestMapping(value = "/{bookmarkId}", method = RequestMethod.GET)
-	Bookmark readBookmark(@PathVariable String userId, @PathVariable Long bookmarkId) {
+	Bookmark readBookmark(Principal principal, @PathVariable Long bookmarkId) {
+		String userId = principal.getName();
 		this.validateUser(userId);
 		return this.bookmarkRepository.findOne(bookmarkId);
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	Collection<Bookmark> readBookmarks(@PathVariable String userId) {
+	Collection<Bookmark> readBookmarks(Principal principal) {
+		String userId = principal.getName();
 		this.validateUser(userId);
 		return this.bookmarkRepository.findByAccountUsername(userId);
 	}
